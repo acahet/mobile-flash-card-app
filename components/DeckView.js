@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { View, Text, TouchableOpacity, Animated } from 'react-native';
 import { connect } from 'react-redux';
 import { styles } from '../utils/styles';
@@ -16,6 +16,7 @@ class DeckView extends React.Component {
 		animation: new Animated.Value(1),
 	};
 	animate = () => {
+		// this.setNotification
 		const { animation } = this.state;
 		Animated.sequence([
 			Animated.timing(animation, { duration: 500, toValue: 1.04, useNativeDriver: true }),
@@ -24,9 +25,15 @@ class DeckView extends React.Component {
 	};
 	componentDidMount = () => {
 		this.animate();
-		// clearLocalNotification().then(setLocalNotification);
+		
 	};
+	setNotification =() =>{
+		useEffect(()=>{
+			clearLocalNotification().then(setLocalNotification)
+		},[])
+	}
 	render() {
+		
 		const deck = this.props.route.params.entryId;
 		const { decks } = this.props;
 

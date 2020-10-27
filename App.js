@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { StyleSheet, View, SafeAreaView } from 'react-native';
+import React, { Component, useEffect } from 'react';
+import { StyleSheet, SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
@@ -21,8 +21,13 @@ const store = createStore(reducer, middleware);
 class App extends Component {
 	componentDidMount() {
 		store.dispatch(handleInitialData());
-		// setLocalNotification();
+		// this.setNotification
 	}
+	// setNotification = () =>{
+	// 	useEffect(()=>{
+	// 		setLocalNotification()
+	// 	}, []);
+	// }
 	render() {
 		return (
 			<Provider store={store}>

@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
-const STORAGE_DECKS_KEY = 'Flashcards: decks';
+const STORAGE_DECKS_KEY = 'cards: decks';
 
 const decks = {
 	React: {
@@ -69,27 +69,26 @@ function formatQuestion({ question, answer, correctAnswer }) {
 
 export const _getDeckTitle = async (deck) => {
 	try {
-		AsyncStorage.getItem(STORAGE_DECKS_KEY).then((results) => {
-			console.log('deck title is: ', JSON.parse(results)[deck].title);
-			return JSON.parse(results)[deck].title;
-		});
+		const data = await _getData();
+		return JSON.stringify(data[deck].title)
+
 	} catch (error) {
 		console.log('_getDeckTitle error ', error);
 	}
 };
 
 // add card
-export const _addCardToDeck = async (title, card) => {
-	const formattedQuestion = formatQuestion(card);
-
+export const _addCardToDeck = async (title, question) => {
+	const formattedQuestion = formatQuestion(question);
+	const deck = await _getDeckTitle(title);
 	try {
-		const deck = await _getDeckTitle(title);
+
 
 		await AsyncStorage.mergeItem(
 			STORAGE_DECKS_KEY,
 			JSON.stringify({
-				[title]: {
-					questions: [...deck.questions].concat(formattedQuestion),
+				[deck]: {
+					[questions]: [...deck.questions].concat(formattedQuestion),
 				},
 			})
 		);
