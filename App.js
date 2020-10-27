@@ -1,21 +1,45 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, View, SafeAreaView } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import reducer from './reducers';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+// You can import from local files
+import middleware from './middleware';
+import Constants from 'expo-constants';
+
+import StatusBarDisplay from './components/StatusBarDisplay';
+import NavigationSection from './components/Navigation/index';
+import { handleInitialData } from './actions';
+// or any pure javascript modules available in npm
+import { resetDecksAsync } from './utils/_DATA';
+import { white } from './utils/colors';
+import { setLocalNotification } from './utils/helpers';
+const store = createStore(reducer, middleware);
+
+class App extends Component {
+	componentDidMount() {
+		store.dispatch(handleInitialData());
+		// setLocalNotification();
+	}
+	render() {
+		return (
+			<Provider store={store}>
+				<SafeAreaView style={styles.container}>
+					<StatusBarDisplay backgroundColor={white} />
+					<NavigationContainer>
+						<NavigationSection />
+					</NavigationContainer>
+				</SafeAreaView>
+			</Provider>
+		);
+	}
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+	container: {
+		flex: 1,
+	},
 });
+export default App;
