@@ -12,10 +12,6 @@ export const addDeck = (deck) => {
 	return _addNewDeckByTitle(deck);
 };
 
-export const addQuestion = (info) => {
-	return _addNewQuestionToDeck(info);
-};
-
 export const addCardToDeck = (deck, info) => {
 	return _addCardToDeck(deck, info);
 };

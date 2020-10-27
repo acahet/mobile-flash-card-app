@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
-const STORAGE_DECKS_KEY = 'cards: decks';
+const STORAGE_DECKS_KEY = 'mobile-cards: decks';
 
 const decks = {
 	React: {
@@ -31,14 +31,11 @@ const decks = {
 };
 export const _getData = async () => {
 	try {
-		return AsyncStorage.getItem(STORAGE_DECKS_KEY).then((results) => {
-			if (results === null) {
-				AsyncStorage.setItem(JSON.stringify(decks));
-				return decks;
-			} else {
-				return JSON.parse(results);
-			}
-		});
+		const data = await AsyncStorage.getItem(STORAGE_DECKS_KEY)
+		if(data === null) {
+			AsyncStorage.setItem(STORAGE_DECKS_KEY, JSON.stringify(decks))
+		}
+		return data === null ? decks : JSON.parse(data)
 	} catch (error) {
 		console.log('_getData error ', error);
 	}
@@ -59,18 +56,10 @@ export const _addNewDeckByTitle = async (title) => {
 		console.log('_addNewDeckByTitle error ', error);
 	}
 };
-function formatQuestion({ question, answer, correctAnswer }) {
-	return {
-		question: question,
-		answer: answer,
-		correctAnswer: correctAnswer,
-	};
-}
-
 export const _getDeckTitle = async (deck) => {
 	try {
-		const data = await _getData();
-		return JSON.stringify(data[deck].title)
+		const data = await AsyncStorage.getItem(STORAGE_DECKS_KEY)
+		return JSON.parse(data)[deck]
 
 	} catch (error) {
 		console.log('_getDeckTitle error ', error);
@@ -78,8 +67,7 @@ export const _getDeckTitle = async (deck) => {
 };
 
 // add card
-export const _addCardToDeck = async (title, question) => {
-	const formattedQuestion = formatQuestion(question);
+export const _addCardToDeck = async (title, card) => {
 	const deck = await _getDeckTitle(title);
 	try {
 
@@ -88,11 +76,11 @@ export const _addCardToDeck = async (title, question) => {
 			STORAGE_DECKS_KEY,
 			JSON.stringify({
 				[deck]: {
-					[questions]: [...deck.questions].concat(formattedQuestion),
+					[questions]: [...deck.questions].concat(card),
 				},
 			})
 		);
 	} catch (error) {
-		console.log('_getDeckTitle error ', error);
+		console.log('_addCardToDeck error ', error);
 	}
 };

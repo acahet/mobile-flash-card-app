@@ -1,8 +1,8 @@
 export const RECEIVE_DECKS = 'RECEIVE_DECKS';
 export const ADD_DECK = 'ADD_DECK';
-export const ADD_QUESTION_TO_DECK = 'ADD_QUESTION_TO_DECK';
+export const ADD_CARD_TO_DECK = 'ADD_CARD_TO_DECK';
 
-import { getInitialData, addDeck, addCardToDeck } from '../utils/api';
+import { getInitialData, addDeck } from '../utils/api';
 import { _addCardToDeck } from '../utils/_DATA';
 
 //get decks
@@ -23,9 +23,9 @@ export function addNewDeck(deck, card) {
 }
 
 //add card with question to deck
-export function addQuestionToDeck(deck, card) {
+export function addCardToDeck(deck, card) {
 	return {
-		type: ADD_QUESTION_TO_DECK,
+		type: ADD_CARD_TO_DECK,
 		deck,
 		card,
 	};
@@ -48,9 +48,8 @@ export function handleAddDeck(title) {
 }
 export function handleAddCard(deck, { question, answer, correctAnswer }) {
 	return (dispatch) => {
-		return addCardToDeck(deck, { question, answer, correctAnswer }).then((res) => {
-			console.log('handleAddCard ', handleAddCard);
-			dispatch(addQuestionToDeck(deck, { question, answer, correctAnswer }));
+		return _addCardToDeck(deck, { question, answer, correctAnswer }).then((res) => {
+			dispatch(addCardToDeck(deck, { question, answer, correctAnswer }));
 		});
 	};
 }

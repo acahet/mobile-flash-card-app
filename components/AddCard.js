@@ -22,7 +22,6 @@ class AddCard extends Component {
 			correctAnswer,
 		};
 		this.props.dispatch(handleAddCard(deck, card));
-
 		this.props.navigation.dispatch(CommonActions.goBack());
 
 		this.setState(() => ({
