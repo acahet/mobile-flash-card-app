@@ -7,7 +7,10 @@ Udacity-React-Native-Project: To build a mobile application (Android or iOS - or
 Native mobile app for iOS and android, that allows users to create deck, add card, take quiz.
 It uses: - React Native, Expo, Redux, React Navigation, AsyncStorage, Notifications
 
-Link to Snack: https://snack.expo.io/@acahet/github.com-acahet-udacity-react-native-mobile-flashcards
+**Start Project**
+- Download/Clone repo
+- npm install
+- expo start OR npm start
 
 **Landing Page**
 
