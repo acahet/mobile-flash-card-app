@@ -21,13 +21,13 @@ const store = createStore(reducer, middleware);
 class App extends Component {
 	componentDidMount() {
 		store.dispatch(handleInitialData());
-		// this.setNotification
+		this.setNotification
 	}
-	// setNotification = () =>{
-	// 	useEffect(()=>{
-	// 		setLocalNotification()
-	// 	}, []);
-	// }
+	setNotification = () =>{
+		useEffect(()=>{
+			setLocalNotification()
+		}, []);
+	}
 	render() {
 		return (
 			<Provider store={store}>

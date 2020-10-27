@@ -16,7 +16,7 @@ class DeckView extends React.Component {
 		animation: new Animated.Value(1),
 	};
 	animate = () => {
-		// this.setNotification
+		this.setNotification
 		const { animation } = this.state;
 		Animated.sequence([
 			Animated.timing(animation, { duration: 500, toValue: 1.04, useNativeDriver: true }),
